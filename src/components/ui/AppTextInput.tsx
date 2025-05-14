@@ -7,23 +7,43 @@ import {
   StyleProp,
   ViewStyle,
 } from "react-native";
+import { useController } from "react-hook-form";
 
 type AppTextInputProps = {
+  name: string;
   label?: string;
+  required?: boolean;
   containerStyle?: StyleProp<ViewStyle>;
 } & TextInputProps;
 
 export default function AppTextInput({
+  name,
   label,
+  required,
   containerStyle,
   ...rest
 }: AppTextInputProps) {
+  const {
+    field: { value, onChange, onBlur },
+    fieldState: { error },
+  } = useController({ name });
+
   return (
     <View style={[styles.container, containerStyle]}>
-      {label && <Text style={styles.label}>{label}</Text>}
-      <TextInput {...rest} style={[styles.textInput, rest.style]} />
+      {label && (
+        <Text style={styles.label}>
+          {label} {required && <Text style={styles.required}>*</Text>}
+        </Text>
+      )}
+      <TextInput
+        {...rest}
+        value={value}
+        onChangeText={onChange}
+        onBlur={onBlur}
+        style={[styles.textInput, rest.style]}
+      />
       <Text style={styles.errorMessage} numberOfLines={1}>
-        {/* Error Message */}
+        {error?.message}
       </Text>
     </View>
   );
@@ -35,6 +55,9 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 16,
+  },
+  required: {
+    color: "crimson",
   },
   textInput: {
     borderWidth: 1,
