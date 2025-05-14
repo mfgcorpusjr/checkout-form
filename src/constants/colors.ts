@@ -1,3 +1,3 @@
 export default {
-  tint: "darkviolet",
+  tint: "#005055",
 };
