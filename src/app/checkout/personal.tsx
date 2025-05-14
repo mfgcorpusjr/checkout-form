@@ -2,6 +2,7 @@ import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 
+import KeyboardAwareScrollView from "@/components/KeyboardAwareScrollView";
 import AppTextInput from "@/components/ui/AppTextInput";
 import AppButton from "@/components/ui/AppButton";
 
@@ -12,28 +13,34 @@ export default function PersonalScreen() {
 
   return (
     <SafeAreaView style={styles.screen} edges={["bottom"]}>
-      <View style={styles.container}>
-        <AppTextInput placeholder="John Doe" label="Full Name" />
+      <KeyboardAwareScrollView>
+        <View style={styles.container}>
+          <AppTextInput placeholder="John Doe" label="Full Name" />
 
-        <AppTextInput placeholder="580 Whiff Oaf Lane" label="Address" />
+          <AppTextInput placeholder="580 Whiff Oaf Lane" label="Address" />
 
-        <View style={{ flexDirection: "row", gap: 12 }}>
-          <AppTextInput
-            containerStyle={{ flex: 1 }}
-            placeholder="Sta. Rosa City"
-            label="City"
-          />
-          <AppTextInput
-            containerStyle={{ flex: 1 }}
-            placeholder="4026"
-            label="Postal Code"
+          <View style={{ flexDirection: "row", gap: 12 }}>
+            <AppTextInput
+              containerStyle={{ flex: 1 }}
+              placeholder="Sta. Rosa City"
+              label="City"
+            />
+            <AppTextInput
+              containerStyle={{ flex: 1 }}
+              placeholder="4026"
+              label="Postal Code"
+            />
+          </View>
+
+          <AppTextInput placeholder="1234567890" label="Phone Number" />
+
+          <AppButton
+            style={styles.nextButton}
+            text="Next"
+            onPress={handleNext}
           />
         </View>
-
-        <AppTextInput placeholder="1234567890" label="Phone Number" />
-
-        <AppButton style={styles.nextButton} text="Next" onPress={handleNext} />
-      </View>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 }

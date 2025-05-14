@@ -2,6 +2,7 @@ import { StyleSheet, View, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 
+import KeyboardAwareScrollView from "@/components/KeyboardAwareScrollView";
 import ConfirmCard from "@/components/ConfirmCard";
 import AppButton from "@/components/ui/AppButton";
 
@@ -27,39 +28,41 @@ export default function ConfirmScreen() {
 
   return (
     <SafeAreaView style={styles.screen} edges={["bottom"]}>
-      <View style={styles.container}>
-        <ConfirmCard
-          title="Personal"
-          onEdit={() => router.dismissTo("/checkout/personal")}
-        >
-          {Object.entries(personalData).map(([key, value]) => {
-            return (
-              <Text key={key} style={styles.text}>
-                {key}: {value}
-              </Text>
-            );
-          })}
-        </ConfirmCard>
+      <KeyboardAwareScrollView>
+        <View style={styles.container}>
+          <ConfirmCard
+            title="Personal"
+            onEdit={() => router.dismissTo("/checkout/personal")}
+          >
+            {Object.entries(personalData).map(([key, value]) => {
+              return (
+                <Text key={key} style={styles.text}>
+                  {key}: {value}
+                </Text>
+              );
+            })}
+          </ConfirmCard>
 
-        <ConfirmCard
-          title="Payment"
-          onEdit={() => router.dismissTo("/checkout/payment")}
-        >
-          {Object.entries(paymentData).map(([key, value]) => {
-            return (
-              <Text key={key} style={styles.text}>
-                {key}: {value}
-              </Text>
-            );
-          })}
-        </ConfirmCard>
+          <ConfirmCard
+            title="Payment"
+            onEdit={() => router.dismissTo("/checkout/payment")}
+          >
+            {Object.entries(paymentData).map(([key, value]) => {
+              return (
+                <Text key={key} style={styles.text}>
+                  {key}: {value}
+                </Text>
+              );
+            })}
+          </ConfirmCard>
 
-        <AppButton
-          style={styles.nextButton}
-          text="Submit"
-          onPress={handleNext}
-        />
-      </View>
+          <AppButton
+            style={styles.nextButton}
+            text="Submit"
+            onPress={handleNext}
+          />
+        </View>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 }
