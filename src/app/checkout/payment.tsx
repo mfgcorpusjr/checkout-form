@@ -13,7 +13,7 @@ export default function PaymentScreen() {
 
   return (
     <SafeAreaView style={styles.screen} edges={["bottom"]}>
-      <KeyboardAwareScrollView>
+      <KeyboardAwareScrollView keyboardVerticalOffset={110}>
         <View style={styles.container}>
           <AppTextInput placeholder="112233445566" label="Card Number" />
 

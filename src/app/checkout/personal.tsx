@@ -13,7 +13,7 @@ export default function PersonalScreen() {
 
   return (
     <SafeAreaView style={styles.screen} edges={["bottom"]}>
-      <KeyboardAwareScrollView>
+      <KeyboardAwareScrollView keyboardVerticalOffset={110}>
         <View style={styles.container}>
           <AppTextInput placeholder="John Doe" label="Full Name" />
 

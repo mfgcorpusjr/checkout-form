@@ -1,11 +1,20 @@
+import React from "react";
 import { Stack } from "expo-router";
+
+import StepIndicator from "@/components/StepIndicator";
+
+const steps = [
+  { key: "personal", label: "Personal" },
+  { key: "payment", label: "Payment" },
+  { key: "confirm", label: "Confirm" },
+];
 
 export default function CheckoutLayout() {
   return (
-    <Stack>
-      <Stack.Screen name="personal" options={{ title: "Personal" }} />
-      <Stack.Screen name="payment" options={{ title: "Payment" }} />
-      <Stack.Screen name="confirm" options={{ title: "Confirm" }} />
-    </Stack>
+    <>
+      <StepIndicator steps={steps} />
+
+      <Stack screenOptions={{ headerShown: false }} />
+    </>
   );
 }
