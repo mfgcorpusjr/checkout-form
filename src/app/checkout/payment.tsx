@@ -3,49 +3,27 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+
+import {
+  paymentDataScheme,
+  PaymentData,
+  useCheckoutFormContext,
+} from "@/providers/CheckoutFormProvider";
 
 import KeyboardAwareScrollView from "@/components/KeyboardAwareScrollView";
 import AppTextInput from "@/components/ui/AppTextInput";
 import AppButton from "@/components/ui/AppButton";
 
-import { luhnCheck, notInThePast } from "@/utils/validation";
-
-const paymentDataScheme = z.object({
-  cardNumber: z
-    .string()
-    .min(1, { message: "Card Number is required" })
-    .trim()
-    .regex(/^[0-9\s-]+$/, {
-      message: "Card Number can only contain digits, spaces, or dashes",
-    })
-    .refine((val) => luhnCheck(val), {
-      message: "Invalid Card Number",
-    }),
-  expirationDate: z
-    .string()
-    .min(1, { message: "Expiration Date is required" })
-    .trim()
-    .regex(/^(0[1-9]|1[0-2])\/\d{2}$/, {
-      message: "Invalid",
-    })
-    .refine((val) => notInThePast(val), {
-      message: "Invalid",
-    }),
-  cvv: z
-    .string()
-    .min(3, { message: "Invalid" })
-    .max(4, { message: "Invalid" })
-    .trim()
-    .regex(/^\d{3,4}$/, {
-      message: "Invalid",
-    }),
-});
-
 export default function PaymentScreen() {
-  const form = useForm({ resolver: zodResolver(paymentDataScheme) });
+  const { paymentData, setPaymentData } = useCheckoutFormContext();
 
-  const handleNext = () => {
+  const form = useForm({
+    defaultValues: paymentData,
+    resolver: zodResolver(paymentDataScheme),
+  });
+
+  const handleNext = (data: PaymentData) => {
+    setPaymentData(data);
     router.push("/checkout/confirm");
   };
 
@@ -56,7 +34,7 @@ export default function PaymentScreen() {
           <FormProvider {...form}>
             <AppTextInput
               name="cardNumber"
-              placeholder="112233445566"
+              placeholder="4242 4242 4242 4242"
               label="Card Number"
               required
             />

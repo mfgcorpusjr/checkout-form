@@ -3,45 +3,27 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+
+import {
+  personalDataScheme,
+  PersonalData,
+  useCheckoutFormContext,
+} from "@/providers/CheckoutFormProvider";
 
 import KeyboardAwareScrollView from "@/components/KeyboardAwareScrollView";
 import AppTextInput from "@/components/ui/AppTextInput";
 import AppButton from "@/components/ui/AppButton";
 
-const personalDataScheme = z.object({
-  fullName: z
-    .string()
-    .min(1, { message: "Full Name is required" })
-    .trim()
-    .regex(/^[A-Za-z. ]+$/, {
-      message: "Full name can only contain letters, periods, and spaces",
-    }),
-  address: z.string().min(1, { message: "Address is required" }).trim(),
-  city: z.string().min(1, { message: "City is required" }).trim(),
-  postalCode: z
-    .string()
-    .min(1, { message: "Postal code is required" })
-    .trim()
-    .regex(/^[A-Za-z0-9\s\-]+$/, {
-      message: "Invalid",
-    }),
-  phoneNumber: z
-    .string()
-    .min(1, { message: "Phone number is required" })
-    .trim()
-    .regex(/^\+?[1-9]\d{1,14}$/, {
-      message:
-        "Phone number must be in international format, e.g., +1234567890",
-    }),
-});
-
 export default function PersonalScreen() {
+  const { personalData, setPersonalData } = useCheckoutFormContext();
+
   const form = useForm({
+    defaultValues: personalData,
     resolver: zodResolver(personalDataScheme),
   });
 
-  const handleNext = () => {
+  const handleNext = (data: PersonalData) => {
+    setPersonalData(data);
     router.push("/checkout/payment");
   };
 

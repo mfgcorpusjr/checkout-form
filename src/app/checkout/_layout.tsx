@@ -1,6 +1,8 @@
 import React from "react";
 import { Stack } from "expo-router";
 
+import CheckoutFormProvider from "@/providers/CheckoutFormProvider";
+
 import StepIndicator from "@/components/StepIndicator";
 
 const steps = [
@@ -14,7 +16,9 @@ export default function CheckoutLayout() {
     <>
       <StepIndicator steps={steps} />
 
-      <Stack screenOptions={{ headerShown: false }} />
+      <CheckoutFormProvider>
+        <Stack screenOptions={{ headerShown: false }} />
+      </CheckoutFormProvider>
     </>
   );
 }

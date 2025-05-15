@@ -1,29 +1,30 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
+
+import { useCheckoutFormContext } from "@/providers/CheckoutFormProvider";
 
 import KeyboardAwareScrollView from "@/components/KeyboardAwareScrollView";
 import ConfirmCard from "@/components/ConfirmCard";
 import AppButton from "@/components/ui/AppButton";
 
-const personalData = {
-  fullName: "John Doe",
-  address: "580 Whiff Oaf Lane",
-  city: "Sta. Rosa City",
-  postalCode: "4026",
-  phoneNumber: "1234567890",
-};
-
-const paymentData = {
-  cardNumber: "112233445566",
-  expirationDate: "MM/YY",
-  cvv: "123",
-};
-
 export default function ConfirmScreen() {
-  const handleNext = () => {
-    router.dismissAll();
-    router.back();
+  const { personalData, setPersonalData, paymentData, setPaymentData } =
+    useCheckoutFormContext();
+
+  const handleSubmit = () => {
+    Alert.alert("Thank you!", "Your payment has been processed successfully.", [
+      {
+        text: "Continue",
+        onPress: () => {
+          setPersonalData(undefined);
+          setPaymentData(undefined);
+
+          router.dismissAll();
+          router.back();
+        },
+      },
+    ]);
   };
 
   return (
@@ -34,32 +35,34 @@ export default function ConfirmScreen() {
             title="Personal"
             onEdit={() => router.dismissTo("/checkout/personal")}
           >
-            {Object.entries(personalData).map(([key, value]) => {
-              return (
-                <Text key={key} style={styles.text}>
-                  {key}: {value}
-                </Text>
-              );
-            })}
+            <Text style={styles.text}>Full Name: {personalData?.fullName}</Text>
+            <Text style={styles.text}>Address: {personalData?.address}</Text>
+            <Text style={styles.text}>City: {personalData?.city}</Text>
+            <Text style={styles.text}>
+              Postal Code: {personalData?.postalCode}
+            </Text>
+            <Text style={styles.text}>
+              Phone Number: {personalData?.phoneNumber}
+            </Text>
           </ConfirmCard>
 
           <ConfirmCard
             title="Payment"
             onEdit={() => router.dismissTo("/checkout/payment")}
           >
-            {Object.entries(paymentData).map(([key, value]) => {
-              return (
-                <Text key={key} style={styles.text}>
-                  {key}: {value}
-                </Text>
-              );
-            })}
+            <Text style={styles.text}>
+              Card Number: {paymentData?.cardNumber}
+            </Text>
+            <Text style={styles.text}>
+              Expiration Date: {paymentData?.expirationDate}
+            </Text>
+            <Text style={styles.text}>CVV: {paymentData?.cvv}</Text>
           </ConfirmCard>
 
           <AppButton
             style={styles.nextButton}
             text="Submit"
-            onPress={handleNext}
+            onPress={handleSubmit}
           />
         </View>
       </KeyboardAwareScrollView>
