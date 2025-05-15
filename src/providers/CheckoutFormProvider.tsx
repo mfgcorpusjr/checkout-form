@@ -49,7 +49,7 @@ export type PersonalData = z.infer<typeof personalDataScheme>;
 export const paymentDataScheme = z.object({
   cardNumber: z
     .string()
-    .min(1, { message: "Card Number is required" })
+    .min(1, { message: "Required" })
     .trim()
     .regex(/^[0-9\s-]+$/, {
       message: "Card Number can only contain digits, spaces, or dashes",
@@ -59,7 +59,7 @@ export const paymentDataScheme = z.object({
     }),
   expirationDate: z
     .string()
-    .min(1, { message: "Expiration Date is required" })
+    .min(1, { message: "Required" })
     .trim()
     .regex(/^(0[1-9]|1[0-2])\/\d{2}$/, {
       message: "Invalid",
