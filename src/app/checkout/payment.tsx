@@ -12,6 +12,7 @@ import {
 
 import KeyboardAwareScrollView from "@/components/KeyboardAwareScrollView";
 import AppTextInput from "@/components/ui/AppTextInput";
+import AppCheckbox from "@/components/ui/AppCheckbox";
 import AppButton from "@/components/ui/AppButton";
 
 export default function PaymentScreen() {
@@ -55,6 +56,11 @@ export default function PaymentScreen() {
                 required
               />
             </View>
+
+            <AppCheckbox
+              name="saveCardInformation"
+              label="Save card information"
+            />
 
             <AppButton
               style={styles.nextButton}

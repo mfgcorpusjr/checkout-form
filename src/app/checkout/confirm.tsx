@@ -57,6 +57,10 @@ export default function ConfirmScreen() {
               Expiration Date: {paymentData?.expirationDate}
             </Text>
             <Text style={styles.text}>CVV: {paymentData?.cvv}</Text>
+            <Text style={styles.text}>
+              Save Card Information:
+              {paymentData?.saveCardInformation ? "Yes" : "No"}
+            </Text>
           </ConfirmCard>
 
           <AppButton

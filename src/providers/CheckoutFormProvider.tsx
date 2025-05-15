@@ -75,6 +75,7 @@ export const paymentDataScheme = z.object({
     .regex(/^\d{3,4}$/, {
       message: "Invalid",
     }),
+  saveCardInformation: z.boolean(),
 });
 
 export type PaymentData = z.infer<typeof paymentDataScheme>;
